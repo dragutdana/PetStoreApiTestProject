@@ -56,13 +56,13 @@ public class PetStoreTest {
         pet.setPhotoUrls(urlList);
 
         Pet petResponse = given().log().all().spec(jsonRequest)
-                .body(pet)
+                .body(pet) // serialization via Jackson library
                 .when()
                 .post("v2/pet")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().response().as(Pet.class);
+                .extract().response().as(Pet.class); // deserialization via Jackson library
 
         Assert.assertEquals(petResponse.getName(), PET_NAME );
         Assert.assertEquals(petResponse.getTags().get(0).getName(), "newTag");
