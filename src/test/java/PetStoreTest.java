@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
@@ -31,20 +32,6 @@ public class PetStoreTest {
             .setBaseUri("https://petstore.swagger.io") //Base URI for the server
             .setContentType(ContentType.MULTIPART) //HEADER (FormData)
             .build();
-
-    @Test
-    public void petUploadImage(){
-
-        PetResponse petResponse = given().log().all().spec(multipartFormDataRequest)
-        .pathParams("petId", 1)
-                .multiPart("file", new File("src/main/resources/20221117_172332.jpg"))
-                .when()
-                .post("/v2/pet/{petId}/uploadImage")
-                .then()
-                .log().all()
-                .statusCode(200)
-                .extract().response().as(PetResponse.class);
-    }
 
 
     @Test
@@ -177,6 +164,22 @@ public class PetStoreTest {
                 .log().all()
                 .statusCode(200)
                 .extract().response().asString();
+    }
+
+    @Test
+    public void petUploadImage(){
+
+        PetResponse petResponse = given().log().all().spec(multipartFormDataRequest)
+                .pathParams("petId", 1)
+                .multiPart("file", new File("src/main/resources/20221117_172332.jpg"))
+                .when()
+                .post("/v2/pet/{petId}/uploadImage")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .extract().response().as(PetResponse.class);
+
+        Assert.assertTrue(petResponse.getMessage().contains("uploaded") );
     }
 
     @Test
