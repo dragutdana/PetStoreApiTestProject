@@ -1,6 +1,6 @@
 package pojo;
 
-public class UpdatePetResponse {
+public class PetResponse {
     int code;
     String type;
     String message;

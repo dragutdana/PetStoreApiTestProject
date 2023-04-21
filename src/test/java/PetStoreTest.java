@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import pojo.Category;
 import pojo.Pet;
 import pojo.Tag;
-import pojo.UpdatePetResponse;
+import pojo.PetResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -113,7 +113,7 @@ public class PetStoreTest {
         PET_NAME = "Alexandra";
         String NEW_PET_STATUS = "sold";
 
-        UpdatePetResponse response = given().log().all().spec(formDataRequest)
+        PetResponse response = given().log().all().spec(formDataRequest)
                 .pathParams("petId", PET_ID )
                 .param("name", PET_NAME)
                 .param("status", NEW_PET_STATUS)
@@ -122,7 +122,7 @@ public class PetStoreTest {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .extract().response().as(UpdatePetResponse.class);
+                .extract().response().as(PetResponse.class);
 
         Assert.assertEquals(response.getCode(), 200);
         Assert.assertEquals(response.getType(),"unknown");
@@ -161,7 +161,7 @@ public class PetStoreTest {
     @Test
     public void findNonExistingPetIdTest(){
 
-        UpdatePetResponse petResponse = given().log().all()
+        PetResponse petResponse = given().log().all()
                 .spec(jsonRequest)
                 .pathParams("petId", "1999")
                 .when()
@@ -169,7 +169,7 @@ public class PetStoreTest {
                 .then()
                 .log().all()
                 .statusCode(404)
-                .extract().response().as(UpdatePetResponse.class);
+                .extract().response().as(PetResponse.class);
 
         Assert.assertTrue(petResponse.getMessage().equals("Pet not found"));
     }
@@ -181,7 +181,7 @@ public class PetStoreTest {
         String NEW_PET_NAME = "Alexandra";
         String NEW_PET_STATUS = "sold";
 
-        UpdatePetResponse response = given().log().all().spec(formDataRequest)
+        PetResponse response = given().log().all().spec(formDataRequest)
                 .pathParams("petId", PET_ID)
                 .param("name", NEW_PET_NAME)
                 .param("status", NEW_PET_STATUS)
@@ -190,7 +190,7 @@ public class PetStoreTest {
                 .then()
                 .log().all()
                 .statusCode(404)
-                .extract().response().as(UpdatePetResponse.class);
+                .extract().response().as(PetResponse.class);
 
         Assert.assertEquals(response.getCode(), 404);
     }
