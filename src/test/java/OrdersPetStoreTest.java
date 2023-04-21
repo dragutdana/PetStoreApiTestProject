@@ -65,6 +65,7 @@ public class OrdersPetStoreTest {
         Assert.assertEquals(deleteOrderResponse.getType(), "unknown");
     }
 
+    // This currently fails as there is no validation for status enum values in Pets
     @Test
     public void inventoryTest(){
 
@@ -76,7 +77,7 @@ public class OrdersPetStoreTest {
             .statusCode(200)
             .extract().response().as(Map.class);
 
-        Assert.assertTrue(response.size() > 4);
+        Assert.assertEquals(response.size(),  3);
     }
 
     @Test
